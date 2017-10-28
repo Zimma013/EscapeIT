@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override public void onServiceReady() {
-
                 beaconManager.startLocationDiscovery();
             }
         });
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         activityShown = false;
     }
 
-    public void enableBeaconNotifications() {
+    /*public void enableBeaconNotifications() {
         if (beaconNotificationsEnabled) {
             return;
         }
@@ -124,4 +123,5 @@ public class MainActivity extends AppCompatActivity {
     public boolean isBeaconNotificationsEnabled() {
         return beaconNotificationsEnabled;
     }
+*/
 }
