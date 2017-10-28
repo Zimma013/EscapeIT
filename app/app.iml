@@ -141,10 +141,11 @@
     <orderEntry type="library" name="com.estimote:management-sdk-0.3.0" level="project" />
     <orderEntry type="library" name="com.estimote:sdk-1.4.0" level="project" />
     <orderEntry type="library" name="org.reactivestreams:reactive-streams:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="com.estimote:indoorsdk-2.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="net.sf.kxml:kxml2:2.3.0@jar" level="project" />
     <orderEntry type="library" name="com.squareup.retrofit2:retrofit:2.2.0@jar" level="project" />
     <orderEntry type="library" name="com.estimote:internal-plugins-api-0.6.0" level="project" />
-    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.2-3@jar" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.51@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="junit:junit:4.12@jar" level="project" />
     <orderEntry type="library" name="com.estimote:ketchup-0.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test.espresso:espresso-core-3.0.1" level="project" />
@@ -160,9 +161,10 @@
     <orderEntry type="library" name="com.estimote:coresdk-1.3.0" level="project" />
     <orderEntry type="library" name="io.reactivex.rxjava2:rxandroid-2.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="org.hamcrest:hamcrest-library:1.3@jar" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib:1.1.51@jar" level="project" />
     <orderEntry type="library" name="com.android.support:support-v4-26.1.0" level="project" />
+    <orderEntry type="library" name="com.estimote:indoor-sdk-module-2.0.0" level="project" />
     <orderEntry type="library" name="org.jetbrains:annotations:13.0@jar" level="project" />
     <orderEntry type="library" name="com.android.support:animated-vector-drawable-26.1.0" level="project" />
-    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib:1.1.2-3@jar" level="project" />
   </component>
 </module>

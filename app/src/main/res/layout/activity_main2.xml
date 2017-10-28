@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pl.hackyeah.positivedevs.escapeit.MainActivity">
+    tools:context="pl.hackyeah.positivedevs.escapeit.Main2Activity">
 
+    <com.estimote.indoorsdk_module.view.IndoorLocationView
+        android:id="@+id/indoor_view"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="#FF4081" />
 
 </android.support.constraint.ConstraintLayout>

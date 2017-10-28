@@ -9,12 +9,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.estimote.cloud_plugin.common.EstimoteCloudCredentials;
 import com.estimote.coresdk.common.config.EstimoteSDK;
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.RegionUtils;
 import com.estimote.coresdk.observation.utils.Proximity;
 import com.estimote.coresdk.recognition.packets.EstimoteLocation;
 import com.estimote.coresdk.service.BeaconManager;
+import com.estimote.indoorsdk.IndoorLocationManagerBuilder;
+import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener;
+import com.estimote.indoorsdk_module.algorithm.ScanningIndoorLocationManager;
+import com.estimote.indoorsdk_module.cloud.CloudCallback;
+import com.estimote.indoorsdk_module.cloud.EstimoteCloudException;
+import com.estimote.indoorsdk_module.cloud.IndoorCloudManager;
+import com.estimote.indoorsdk_module.cloud.IndoorCloudManagerFactory;
+import com.estimote.indoorsdk_module.cloud.Location;
+import com.estimote.indoorsdk_module.cloud.LocationPosition;
+import com.estimote.indoorsdk_module.view.IndoorLocationView;
 
 import java.util.List;
 
@@ -49,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         beaconManager = new BeaconManager(getApplicationContext());
 
