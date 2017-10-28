@@ -104,13 +104,10 @@ public class Puzzle {
 
     public boolean checkAnswer(String answer) {
         if (answer.equals(correctAnswer))
+            answered = true;
             return true;
         else
             return false;
     }
-
-    public void answerQuestion(String answer){
-        if(checkAnswer(answer))
-            answered = true;
-    }
+    
 }
