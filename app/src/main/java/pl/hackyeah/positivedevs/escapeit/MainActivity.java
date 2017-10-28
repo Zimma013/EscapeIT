@@ -14,6 +14,7 @@ import com.estimote.coresdk.service.BeaconManager;
 
 import java.util.List;
 
+import pl.hackyeah.positivedevs.escapeit.Quests.CloseQuestionQuest;
 import pl.hackyeah.positivedevs.escapeit.Quests.OpenQuestionQuest;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
+        startActivity(intent);
     }
 
     @Override

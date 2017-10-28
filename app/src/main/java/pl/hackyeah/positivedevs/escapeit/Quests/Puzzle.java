@@ -67,7 +67,7 @@ public class Puzzle {
         answerType = AnswerType.valueOf(main.getString("answerType"));
         if(answerType == AnswerType.ABCD){
             possibleAnswers = new ArrayList<PossibleAnswer>();
-            JSONArray answers = main.getJSONArray("possibleAnwers");
+            JSONArray answers = main.getJSONArray("possibleAnswers");
             for(int i = 0;i<answers.length();i++){
                 JSONObject answer = answers.getJSONObject(i);
                 possibleAnswers.add(new PossibleAnswer(answer.getString("name"),answer.getString("answer")));

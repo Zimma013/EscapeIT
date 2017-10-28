@@ -1,8 +1,12 @@
 package pl.hackyeah.positivedevs.escapeit.Quests;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +26,21 @@ public class OpenQuestionQuest extends AppCompatActivity {
     EditText answer;
     Button submitButton;
     Puzzle currPuzzle;
+
+    public void timesUp() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Skończył Ci się czas :(");
+        alertDialogBuilder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 
     public void submitAnswer(View v) {
         String myAnswer = answer.getText().toString();
@@ -50,6 +69,10 @@ public class OpenQuestionQuest extends AppCompatActivity {
         try {
             currPuzzle = new Puzzle("test.json", this);
 
+            if (currPuzzle.getAnswerType() == AnswerType.NUMBERS) {
+                answer.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
+
             //questImage.setImageBitmap(currPuzzle.getImgPath());
             questTitle.setText(currPuzzle.getTitle());
             questDescription.setText(currPuzzle.getDescription());
@@ -57,7 +80,13 @@ public class OpenQuestionQuest extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        Handler handler = new Handler();
 
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                timesUp();
+            }
+        }, 10000);
     }
 
 }
