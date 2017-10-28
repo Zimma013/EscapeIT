@@ -58,13 +58,21 @@ public class MainActivity extends AppCompatActivity {
         beaconManager.setLocationListener(new BeaconManager.LocationListener() {
             @Override
             public void onLocationsFound(List<EstimoteLocation> beacons) {
-                Log.d("LocationListener", "Nearby beacons: " + beacons);
-                
-                String beaconId = "0f0a87151e9e7f7cee18b217073e0104";
+                //Log.d("LocationListener", "Nearby beacons: " + beacons.size());
+
+                String beaconId = "[de4540da1bb6a2a33064dbae9fc80d2d]";
+
 
                 for (EstimoteLocation beacon : beacons) {
+
+                    Log.d("LocationListener", beacon.id.toString() + "  " + RegionUtils.computeProximity(beacon).toString());
+
+
                     if (beacon.id.toString().equals(beaconId)
                             && RegionUtils.computeProximity(beacon) == Proximity.NEAR) {
+
+                        Log.d("Send noti", beacon.id.toString() + "  " + RegionUtils.computeProximity(beacon).toString());
+
                         showNotification("Hello world", "Looks like you're near a beacon.");
                     }
                 }
