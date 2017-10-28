@@ -19,7 +19,8 @@ public class Puzzle {
     private String description;
     private String imgPath;
     private String correctAnswer;
-
+    private AnswerType answerType;
+    private int numberOfAttempts;
 
     public int getId() {
         return id;
@@ -37,6 +38,10 @@ public class Puzzle {
         return imgPath;
     }
 
+    public AnswerType getAnswerType() { return answerType; }
+
+    public int getNumberOfAttempts() { return numberOfAttempts; }
+
     public Puzzle(String jsonFile, Context mContext) throws JSONException {
         String json = loadJSONFromAsset(jsonFile, mContext);
         JSONObject reader = new JSONObject(json);
@@ -46,6 +51,9 @@ public class Puzzle {
         description = main.getString("description");
         imgPath = main.getString("imgPath");
         correctAnswer = main.getString("correctAnswer");
+        answerType = AnswerType.valueOf(main.getString("answerType"));
+        numberOfAttempts = main.getInt("numberOfAttempts");
+
     }
 
     public String loadJSONFromAsset(String jsonFile, Context mContext) {
