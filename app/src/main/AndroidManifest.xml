@@ -13,8 +13,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Main2Activity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".Quests.CloseQuestionQuest" />
         <activity
-            android:name=".Quests.QuestionQuest"
+            android:name=".Quests.OpenQuestionQuest"
             android:label="@string/title_activity_question_quest"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Quests.NumberQuestionQuest"></activity>
     </application>
 
 </manifest>
