@@ -3,11 +3,13 @@ package pl.hackyeah.positivedevs.escapeit.Quests;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * Created by Krzysiek on 2017-10-28.
@@ -21,6 +23,7 @@ public class Puzzle {
     private String correctAnswer;
     private AnswerType answerType;
     private int numberOfAttempts;
+    private ArrayList<PossibleAnswer> possibleAnswers;
 
     public int getId() {
         return id;
@@ -42,6 +45,10 @@ public class Puzzle {
 
     public int getNumberOfAttempts() { return numberOfAttempts; }
 
+    public ArrayList<PossibleAnswer> getPossibleAnswers() {
+        return possibleAnswers;
+    }
+
     public Puzzle(String jsonFile, Context mContext) throws JSONException {
         String json = loadJSONFromAsset(jsonFile, mContext);
         JSONObject reader = new JSONObject(json);
@@ -52,6 +59,14 @@ public class Puzzle {
         imgPath = main.getString("imgPath");
         correctAnswer = main.getString("correctAnswer");
         answerType = AnswerType.valueOf(main.getString("answerType"));
+        if(answerType == AnswerType.ABCD){
+            possibleAnswers = new ArrayList<PossibleAnswer>();
+            JSONArray answers = main.getJSONArray("possibleAnwers");
+            for(int i = 0;i<answers.length();i++){
+                JSONObject answer = answers.getJSONObject(i);
+                possibleAnswers.add(new PossibleAnswer(answer.getString("name"),answer.getString("answer")));
+            }
+        }
         numberOfAttempts = main.getInt("numberOfAttempts");
 
     }

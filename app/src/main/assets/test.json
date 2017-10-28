@@ -7,5 +7,23 @@
     "correctAnswer": "4",
     "answerType":"TEXT",
     "numberOfAttempts":3
+    "possibleAnswers":[
+      {
+        "name":"A",
+        "answer":"2"
+      },
+      {
+        "name":"B",
+        "answer":"3"
+      },
+      {
+        "name":"C",
+        "answer":"1"
+      },
+      {
+        "name":"D",
+        "answer":"77"
+      }
+    ]
   }
 }
