@@ -1,0 +1,9 @@
+{
+  "main": {
+    "id": 1,
+    "title": "Zadanie nr 1",
+    "description": "Ile wynosi wynik dzia�ania 2 + 2?",
+    "imgPath": "",
+    "correctAnswer": "4"
+  }
+}
