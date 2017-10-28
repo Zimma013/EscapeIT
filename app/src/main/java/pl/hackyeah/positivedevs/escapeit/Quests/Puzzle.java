@@ -37,7 +37,7 @@ public class Puzzle {
         return imgPath;
     }
 
-    Puzzle(String jsonFile, Context mContext) throws JSONException {
+    public Puzzle(String jsonFile, Context mContext) throws JSONException {
         String json = loadJSONFromAsset(jsonFile, mContext);
         JSONObject reader = new JSONObject(json);
         JSONObject main = reader.getJSONObject("main");
