@@ -1,91 +1,60 @@
 package pl.hackyeah.positivedevs.escapeit;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.estimote.cloud_plugin.common.EstimoteCloudCredentials;
 import com.estimote.coresdk.common.config.EstimoteSDK;
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.RegionUtils;
 import com.estimote.coresdk.observation.utils.Proximity;
 import com.estimote.coresdk.recognition.packets.EstimoteLocation;
 import com.estimote.coresdk.service.BeaconManager;
-import com.estimote.indoorsdk.IndoorLocationManagerBuilder;
-import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener;
-import com.estimote.indoorsdk_module.algorithm.ScanningIndoorLocationManager;
-import com.estimote.indoorsdk_module.cloud.CloudCallback;
-import com.estimote.indoorsdk_module.cloud.EstimoteCloudException;
-import com.estimote.indoorsdk_module.cloud.IndoorCloudManager;
-import com.estimote.indoorsdk_module.cloud.IndoorCloudManagerFactory;
-import com.estimote.indoorsdk_module.cloud.Location;
-import com.estimote.indoorsdk_module.cloud.LocationPosition;
-import com.estimote.indoorsdk_module.view.IndoorLocationView;
 
 import java.util.List;
+
+import pl.hackyeah.positivedevs.escapeit.Quests.OpenQuestionQuest;
 
 public class MainActivity extends AppCompatActivity {
 
     BeaconManager beaconManager;
 
-    private boolean notificationAlreadyShown = false;
-
-    public void showNotification(String title, String message) {
-        if (notificationAlreadyShown) { return; }
-
-        Intent notifyIntent = new Intent(this, MainActivity.class);
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivities(this, 0,
-                new Intent[] { notifyIntent }, PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notification = new Notification.Builder(this)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .build();
-        notification.defaults |= Notification.DEFAULT_SOUND;
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
-        notificationAlreadyShown = true;
-    }
+    private boolean beaconNotificationsEnabled = false;
+    private boolean activityShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        activityShown = false;
 
         beaconManager = new BeaconManager(getApplicationContext());
 
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
         EstimoteSDK.initialize(getApplicationContext(), "escapeit-kgn", "d1c44810de672d7ca34417ae707b2e4e");
-
         beaconManager.setLocationListener(new BeaconManager.LocationListener() {
             @Override
             public void onLocationsFound(List<EstimoteLocation> beacons) {
                 //Log.d("LocationListener", "Nearby beacons: " + beacons.size());
 
-                String beaconId = "[de4540da1bb6a2a33064dbae9fc80d2d]";
+                String beaconId = "[dde6403fa0fabbb0854d27dc01d2cd16]";
 
 
                 for (EstimoteLocation beacon : beacons) {
 
-                    Log.d("LocationListener", beacon.id.toString() + "  " + RegionUtils.computeProximity(beacon).toString());
+                    if (beacon.id.toString().equals(beaconId)) {
+                        Log.d("LocationListener", beacon.id.toString() + "  " + RegionUtils.computeProximity(beacon).toString());
+                        if (RegionUtils.computeProximity(beacon) == Proximity.NEAR) {
 
+                            Log.d("LocationListener", "START");
 
-                    if (beacon.id.toString().equals(beaconId)
-                            && RegionUtils.computeProximity(beacon) == Proximity.NEAR) {
-
-                        Log.d("Send noti", beacon.id.toString() + "  " + RegionUtils.computeProximity(beacon).toString());
-
-                        showNotification("Hello world", "Looks like you're near a beacon.");
+                            if (!activityShown) {
+                                activityShown = true;
+                                Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
+                                startActivity(intent);
+                            }
+                        }
                     }
                 }
             }
@@ -97,17 +66,59 @@ public class MainActivity extends AppCompatActivity {
                 beaconManager.startLocationDiscovery();
             }
         });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
+        /*String tmpTAG = "???";
+
+        if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
+            Log.e(tmpTAG, "Can't scan for beacons, some pre-conditions were not met");
+            Log.e(tmpTAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
+            Log.e(tmpTAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
+        } else if (!isBeaconNotificationsEnabled()) {
+            Log.d(tmpTAG, "Enabling beacon notifications");
+            enableBeaconNotifications();
+        }
+        */
+
+        activityShown = false;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        beaconManager.disconnect();
+    public void enableBeaconNotifications() {
+        if (beaconNotificationsEnabled) {
+            return;
+        }
+
+        BeaconNotificationsManager beaconNotificationsManager = new BeaconNotificationsManager(this);
+
+        BeaconID A = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 59448, 8542);
+        BeaconID B = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33856, 35765);
+        BeaconID C = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 26902, 37659);
+        BeaconID D = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 27669, 8618);
+
+
+        beaconNotificationsManager.addNotification(
+                A, "Wszedles w obszar BEACONA NUMER 1",
+                "Goodbye, world.");
+        beaconNotificationsManager.addNotification(
+                B, "Wszedles w obszar BEACONA NUMER 2",
+                "Goodbye, world.");
+        beaconNotificationsManager.addNotification(
+                C, "Wszedles w obszar BEACONA NUMER 3",
+                "Goodbye, world.");
+        beaconNotificationsManager.addNotification(
+                D, "Wszedles w obszar BEACONA NUMER 4",
+                "Goodbye, world.");
+        beaconNotificationsManager.startMonitoring();
+
+        beaconNotificationsEnabled = true;
+    }
+
+    public boolean isBeaconNotificationsEnabled() {
+        return beaconNotificationsEnabled;
     }
 }

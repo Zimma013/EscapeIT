@@ -1,11 +1,6 @@
 package pl.hackyeah.positivedevs.escapeit.Quests;
 
-import android.app.AlertDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,13 +12,9 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import pl.hackyeah.positivedevs.escapeit.R;
 
-public class QuestionQuest extends AppCompatActivity {
+public class OpenQuestionQuest extends AppCompatActivity {
 
     ImageView questImage;
     TextView questTitle;
@@ -46,9 +37,9 @@ public class QuestionQuest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question_quest);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_open_question_quest);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         questImage = (ImageView) findViewById(R.id.quest_img);
         questTitle = (TextView) findViewById(R.id.quest_title);
