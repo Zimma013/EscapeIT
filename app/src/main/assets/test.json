@@ -6,7 +6,7 @@
     "imgPath": "",
     "correctAnswer": "4",
     "answerType":"TEXT",
-    "numberOfAttempts":3
+    "numberOfAttempts":3,
     "possibleAnswers":[
       {
         "name":"A",

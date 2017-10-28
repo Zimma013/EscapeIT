@@ -25,6 +25,8 @@ public class Puzzle {
     private int numberOfAttempts;
     private ArrayList<PossibleAnswer> possibleAnswers;
 
+    private boolean answered = false;
+
     public int getId() {
         return id;
     }
@@ -47,6 +49,10 @@ public class Puzzle {
 
     public ArrayList<PossibleAnswer> getPossibleAnswers() {
         return possibleAnswers;
+    }
+
+    public boolean isAnswered(){
+        return answered;
     }
 
     public Puzzle(String jsonFile, Context mContext) throws JSONException {
@@ -96,10 +102,15 @@ public class Puzzle {
 
     }
 
-    boolean checkAnswer(String answer) {
+    public boolean checkAnswer(String answer) {
         if (answer.equals(correctAnswer))
             return true;
         else
             return false;
+    }
+
+    public void answerQuestion(String answer){
+        if(checkAnswer(answer))
+            answered = true;
     }
 }
