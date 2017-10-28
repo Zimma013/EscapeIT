@@ -12,10 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Main2Activity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Main3Activity" />
         <activity android:name=".Quests.CloseQuestionQuest" />
+        <activity android:name=".Quests.OpenQuestionQuest" />
         <activity
-            android:name=".Quests.OpenQuestionQuest"
+            android:name=".MainActivity"
             android:label="@string/title_activity_question_quest"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -51,19 +51,11 @@
         android:gravity="center_vertical|center"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas efficitur nibh quis massa porta, vel sollicitudin ipsum volutpat. Integer suscipit urna elit, id malesuada sapien accumsan semper. Sed id felis consequat, fringilla elit imperdiet, bibendum est. Suspendisse massa mauris, venenatis nec scelerisque et, lacinia sit amet leo. Sed sodales maximus tellus, ac congue arcu. Pellentesque sit amet gravida purus. Praesent lacus magna, volutpat eu rhoncus eget, auctor id ex. Sed dapibus pharetra eros, eget pretium diam mollis sit amet. Nullam blandit mattis tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin nec sapien in arcu consectetur maximus sed sed nibh. Aenean mollis nisi est, nec gravida nibh tempus quis. Aliquam quis posuere ante, nec pulvinar lorem. Vivamus eleifend, ante ut efficitur dictum, erat lorem dictum orci, vel tempus risus felis eu elit." />
 
-    <EditText
-        android:id="@+id/answer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Answer" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/buttons_list" />
 
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:onClick="submitAnswer" />
 
 </LinearLayout>

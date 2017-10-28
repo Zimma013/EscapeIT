@@ -38,8 +38,8 @@ public class OpenQuestionQuest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_question_quest);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         questImage = (ImageView) findViewById(R.id.quest_img);
         questTitle = (TextView) findViewById(R.id.quest_title);

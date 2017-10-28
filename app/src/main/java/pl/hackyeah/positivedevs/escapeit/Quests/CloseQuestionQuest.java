@@ -7,10 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import pl.hackyeah.positivedevs.escapeit.R;
 
@@ -20,8 +24,8 @@ public class CloseQuestionQuest extends AppCompatActivity {
     TextView questTitle;
     TextView questDescription;
     EditText answer;
-    Button submitButton;
     Puzzle currPuzzle;
+    LinearLayout buttons;
 
     public void submitAnswer(View v) {
         String myAnswer = answer.getText().toString();
@@ -45,7 +49,7 @@ public class CloseQuestionQuest extends AppCompatActivity {
         questTitle = (TextView) findViewById(R.id.quest_title);
         questDescription = (TextView) findViewById(R.id.quest_descripton);
         answer = (EditText) findViewById(R.id.answer);
-        submitButton = (Button) findViewById(R.id.submitButton);
+        buttons = (LinearLayout) findViewById(R.id.buttons_list);
 
         try {
             currPuzzle = new Puzzle("test.json", this);
@@ -53,6 +57,16 @@ public class CloseQuestionQuest extends AppCompatActivity {
             //questImage.setImageBitmap(currPuzzle.getImgPath());
             questTitle.setText(currPuzzle.getTitle());
             questDescription.setText(currPuzzle.getDescription());
+
+            LinkedList<String> answers = new LinkedList<>();
+
+            answers.add("A");
+            answers.add("B");
+
+            for (int i = 0; i < answers.size(); i++) {
+                
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
