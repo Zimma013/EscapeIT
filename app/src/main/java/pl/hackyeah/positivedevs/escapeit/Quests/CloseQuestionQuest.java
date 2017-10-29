@@ -34,7 +34,6 @@ public class CloseQuestionQuest extends AppCompatActivity {
     ArrayList<Button> buttons = new ArrayList<>();
 
     public void check(String selected) {
-        Log.d("??", selected);
         if (currPuzzle.checkAnswer(selected)) {
             Toast.makeText(this, "You are correct!", Toast.LENGTH_LONG).show();
         } else {
@@ -123,8 +122,6 @@ public class CloseQuestionQuest extends AppCompatActivity {
             for (int i = 0; i < answers.size(); i++) {
                 buttons.get(i).setVisibility(View.VISIBLE);
                 buttons.get(i).setText(answers.get(i).getAnswer());
-                Log.i("??", Integer.toString(buttons.get(i).getVisibility()));
-                Log.i("???", answers.get(i).getAnswer());
             }
 
         } catch (JSONException e) {

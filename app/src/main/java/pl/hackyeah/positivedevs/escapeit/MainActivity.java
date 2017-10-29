@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public Unit invoke(ProximityAttachment proximityAttachment) {
                                 Log.i("??", "YEY ?");
+                                Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
+                                startActivity(intent);
                                 return null;
                             }
                         })
@@ -66,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public Unit invoke(List<? extends ProximityAttachment> proximityAttachments) {
                              /* Do something here */
-                                Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
-                                startActivity(intent);
+                                Log.i("??", "YEY ???");
                                 return null;
                             }
                         })
