@@ -16,7 +16,7 @@
         <activity android:name=".Quests.CloseQuestionQuest" />
         <activity android:name=".Quests.OpenQuestionQuest" />
         <activity
-            android:name=".MainActivity"
+            android:name=".TmpMainActivity"
             android:label="@string/title_activity_question_quest"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
