@@ -1,8 +1,15 @@
 package pl.hackyeah.positivedevs.escapeit;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.estimote.cloud_plugin.common.EstimoteCloudCredentials;
 import com.estimote.coresdk.common.config.EstimoteSDK;
@@ -18,61 +25,50 @@ import com.estimote.indoorsdk_module.cloud.Location;
 import com.estimote.indoorsdk_module.cloud.LocationPosition;
 import com.estimote.indoorsdk_module.view.IndoorLocationView;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
+import pl.hackyeah.positivedevs.escapeit.Bluetooth.ConnectThread;
+import pl.hackyeah.positivedevs.escapeit.Bluetooth.DeviceItem;
+import pl.hackyeah.positivedevs.escapeit.Bluetooth.ServerConnectThread;
+
 
 public class Main2Activity extends AppCompatActivity {
 
-    IndoorLocationView indoorLocationView;
-    Location myRoom;
-
+    public static int REQUEST_BLUETOOTH = 1;
+    ArrayList<DeviceItem> mAdapter = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        indoorLocationView = (IndoorLocationView) findViewById(R.id.indoor_view);
+        BluetoothAdapter BTAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
-        EstimoteSDK.initialize(getApplicationContext(), "escapeit-kgn", "d1c44810de672d7ca34417ae707b2e4e");
-
-
-        EstimoteCloudCredentials credentials = new EstimoteCloudCredentials("escapeit-kgn", "d1c44810de672d7ca34417ae707b2e4e");
-        IndoorCloudManager cloudManager = new IndoorCloudManagerFactory().create(this, credentials);
-
-        cloudManager.getLocation("test-j4a", new CloudCallback<Location>() {
-            @Override
-            public void success(Location location) {
-                Log.i("success", "success");
-                myRoom = location;
-                indoorLocationView = (IndoorLocationView) findViewById(R.id.indoor_view);
-                indoorLocationView.setLocation(location);
+        if (!BTAdapter.isEnabled()) {
+            Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBT, REQUEST_BLUETOOTH);
+        }
+        /*
+        BroadcastReceiver bReciever = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    // Create a new device item
+                    DeviceItem newDevice = new DeviceItem(device.getName(), device.getAddress(), "false");
+                    // Add it to our adapter
+                    mAdapter.add(newDevice);
+                }
             }
+        };
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        getApplicationContext().registerReceiver(bReciever,filter);*/
+        // server
+        //ServerConnectThread server = new ServerConnectThread();
+        //server.acceptConnect(BTAdapter,new UUID(123,456));
 
-            @Override
-            public void failure(EstimoteCloudException e) {
-                // oops!
-                Log.i("fail", "fail");
-            }
-        });
-
-
-        /*ScanningIndoorLocationManager indoorLocationManager =
-                new IndoorLocationManagerBuilder(this, myRoom,credentials)
-                        .withDefaultScanner()
-                        .build();
-
-
-        indoorLocationManager.setOnPositionUpdateListener(new OnPositionUpdateListener() {
-            @Override
-            public void onPositionUpdate(LocationPosition position) {
-                Log.d("Location in myRoom",position.toString());
-            }
-
-            @Override
-            public void onPositionOutsideLocation() {
-                Log.d("Location in myRoom","outside the room");
-            }
-        });
-
-        indoorLocationManager.startPositioning();*/
+        //client
+        ConnectThread client = new ConnectThread();
+        client.connect(BTAdapter.getRemoteDevice("44:78:3E:C5:1F:67"),new UUID(123,456));
     }
 }
