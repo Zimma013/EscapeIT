@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,6 +26,15 @@ import pl.hackyeah.positivedevs.escapeit.MainActivity;
 import pl.hackyeah.positivedevs.escapeit.R;
 
 public class CloseQuestionQuest extends AppCompatActivity {
+
+    private Handler customHandler = new Handler();
+
+    private long startTime = 0L;
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+
+    TextView timer;
 
     ImageView questImage;
     TextView questTitle;
@@ -102,6 +112,7 @@ public class CloseQuestionQuest extends AppCompatActivity {
         questTitle = (TextView) findViewById(R.id.quest_title);
         questDescription = (TextView) findViewById(R.id.quest_descripton);
         answer = (EditText) findViewById(R.id.answer);
+        timer = (TextView) findViewById(R.id.close_timer_text);
 
         Button tmp = (Button) findViewById(R.id.button_A);
         buttons.add(tmp);
@@ -131,6 +142,9 @@ public class CloseQuestionQuest extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
+
         Handler handler = new Handler();
 
         handler.postDelayed(new Runnable() {
@@ -140,5 +154,20 @@ public class CloseQuestionQuest extends AppCompatActivity {
         }, 10000);
 
     }
+
+    private Runnable updateTimerThread = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timer.setText("" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));
+            customHandler.postDelayed(this, 0);
+        }
+    };
 
 }

@@ -50,26 +50,32 @@ public class MainActivity extends AppCompatActivity {
                         .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
                             @Override
                             public Unit invoke(ProximityAttachment proximityAttachment) {
-                                Log.i("??", "YEY ?");
+
+                                Log.i("proximity", "Enter");
+
+                                if (!activityShown) {
+                                    Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
+                                    startActivity(intent);
+                                    activityShown = true;
+                                }
                                 return null;
                             }
                         })
                         .withOnExitAction(new Function0<Unit>() {
                             @Override
                             public Unit invoke() {
-                            /* Do something here */
-                                Log.i("??", "YEY ??");
+                                Log.i("proximity", "Exit");
                                 return null;
                             }
                         })
                         .withOnChangeAction(new Function1<List<? extends ProximityAttachment>, Unit>() {
                             @Override
                             public Unit invoke(List<? extends ProximityAttachment> proximityAttachments) {
-                             /* Do something here */
-                                Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
-                                startActivity(intent);
+                                Log.i("proximity", "onChange");
                                 return null;
                             }
+
+                            ;
                         })
                         .withDesiredMeanTriggerDistance(2.0)
                         .create();
@@ -85,100 +91,13 @@ public class MainActivity extends AppCompatActivity {
                             }
                         })
                         .startWithSimpleScanner();
-        /*
-        beaconManager = new BeaconManager(getApplicationContext());
-
-        EstimoteSDK.initialize(getApplicationContext(), "escapeit-kgn", "d1c44810de672d7ca34417ae707b2e4e");
-        beaconManager.setLocationListener(new BeaconManager.LocationListener() {
-            @Override
-            public void onLocationsFound(List<EstimoteLocation> beacons) {
-                //Log.d("LocationListener", "Nearby beacons: " + beacons.size());
-
-                String beaconId = "[dde6403fa0fabbb0854d27dc01d2cd16]";
-
-
-                for (EstimoteLocation beacon : beacons) {
-
-                    if (beacon.id.toString().equals(beaconId)) {
-                        Log.d("LocationListener", beacon.id.toString() + "  " + RegionUtils.computeProximity(beacon).toString());
-                        if (RegionUtils.computeProximity(beacon) == Proximity.NEAR) {
-
-                            Log.d("LocationListener", "START");
-
-                            if (!activityShown) {
-                                activityShown = true;
-                                Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
-                                startActivity(intent);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override public void onServiceReady() {
-                beaconManager.startLocationDiscovery();
-            }
-        });
-
-        Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
-        startActivity(intent);*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        /*String tmpTAG = "???";
-
-        if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
-            Log.e(tmpTAG, "Can't scan for beacons, some pre-conditions were not met");
-            Log.e(tmpTAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
-            Log.e(tmpTAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
-        } else if (!isBeaconNotificationsEnabled()) {
-            Log.d(tmpTAG, "Enabling beacon notifications");
-            enableBeaconNotifications();
-        }
-        */
-
         activityShown = false;
     }
-
-    /*public void enableBeaconNotifications() {
-        if (beaconNotificationsEnabled) {
-            return;
-        }
-
-        BeaconNotificationsManager beaconNotificationsManager = new BeaconNotificationsManager(this);
-
-        BeaconID A = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 59448, 8542);
-        BeaconID B = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 33856, 35765);
-        BeaconID C = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 26902, 37659);
-        BeaconID D = new BeaconID("B9407F30-F5F8-466E-AFF9-25556B57FE6D", 27669, 8618);
-
-
-        beaconNotificationsManager.addNotification(
-                A, "Wszedles w obszar BEACONA NUMER 1",
-                "Goodbye, world.");
-        beaconNotificationsManager.addNotification(
-                B, "Wszedles w obszar BEACONA NUMER 2",
-                "Goodbye, world.");
-        beaconNotificationsManager.addNotification(
-                C, "Wszedles w obszar BEACONA NUMER 3",
-                "Goodbye, world.");
-        beaconNotificationsManager.addNotification(
-                D, "Wszedles w obszar BEACONA NUMER 4",
-                "Goodbye, world.");
-        beaconNotificationsManager.startMonitoring();
-
-        beaconNotificationsEnabled = true;
-    }
-
-    public boolean isBeaconNotificationsEnabled() {
-        return beaconNotificationsEnabled;
-    }
-*/
 
     @Override
     protected void onDestroy() {

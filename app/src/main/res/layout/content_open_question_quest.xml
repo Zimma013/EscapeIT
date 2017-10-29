@@ -17,6 +17,14 @@
             android:scaleType="fitXY"
             android:src="@drawable/beacon_beetroot_small" />
 
+        <TextView
+            android:id="@+id/open_timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
