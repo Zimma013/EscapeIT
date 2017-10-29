@@ -65,12 +65,17 @@ public class Main2Activity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         getApplicationContext().registerReceiver(bReciever,filter);*/
         // server
-        //ServerConnectThread server = new ServerConnectThread();
-        //server.acceptConnect(BTAdapter,new UUID(123,456));
+        ServerConnectThread server = new ServerConnectThread();
+        server.acceptConnect(BTAdapter, new UUID(123, 456));
 
         //client
+<<<<<<<Updated upstream
         ConnectThread client = new ConnectThread();
         client.connect(BTAdapter.getRemoteDevice("78:02:F8:E5:D7:88"),new UUID(123,456));
 
+=======
+        //ConnectThread client = new ConnectThread();
+        //client.connect(BTAdapter.getRemoteDevice("44:78:3E:C5:1F:67"),new UUID(123,456));
+>>>>>>>Stashed changes
     }
 }

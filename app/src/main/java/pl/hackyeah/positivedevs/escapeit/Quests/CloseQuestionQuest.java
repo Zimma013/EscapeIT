@@ -49,8 +49,17 @@ public class CloseQuestionQuest extends AppCompatActivity {
     public void check(String selected) {
         if (currPuzzle.checkAnswer(selected)) {
             Toast.makeText(this, "You are correct!", Toast.LENGTH_LONG).show();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", 1);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+
         } else {
             Toast.makeText(this, "You are wrong! :(", Toast.LENGTH_LONG).show();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", 0);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
     }
 
@@ -193,15 +202,5 @@ public class CloseQuestionQuest extends AppCompatActivity {
         timeSwapBuff += timeInMilliseconds;
         customHandler.removeCallbacks(updateTimerThread);
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                Log.i("APP", "CLOSED");
-            }
-        }
     }
 }

@@ -1,5 +1,6 @@
 package pl.hackyeah.positivedevs.escapeit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -180,5 +181,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         observationHandler.stop();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i("APP", "CLOSED");
+            }
+        }
     }
 }
