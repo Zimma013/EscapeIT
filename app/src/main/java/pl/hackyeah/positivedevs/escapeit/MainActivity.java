@@ -12,6 +12,17 @@ import com.estimote.coresdk.observation.region.RegionUtils;
 import com.estimote.coresdk.observation.utils.Proximity;
 import com.estimote.coresdk.recognition.packets.EstimoteLocation;
 import com.estimote.coresdk.service.BeaconManager;
+import com.estimote.indoorsdk.IndoorLocationManagerBuilder;
+import com.estimote.indoorsdk_module.algorithm.OnPositionUpdateListener;
+import com.estimote.indoorsdk_module.algorithm.ScanningIndoorLocationManager;
+import com.estimote.indoorsdk_module.cloud.CloudCallback;
+import com.estimote.indoorsdk_module.cloud.EstimoteCloudException;
+import com.estimote.indoorsdk_module.cloud.IndoorCloudManager;
+import com.estimote.indoorsdk_module.cloud.IndoorCloudManagerFactory;
+import com.estimote.indoorsdk_module.cloud.Location;
+import com.estimote.indoorsdk_module.cloud.LocationPosition;
+import com.estimote.indoorsdk_module.view.IndoorLocationView;
+import com.estimote.internal_plugins_api.cloud.CloudCredentials;
 import com.estimote.internal_plugins_api.cloud.proximity.ProximityAttachment;
 import com.estimote.proximity_sdk.proximity.ProximityObserver;
 import com.estimote.proximity_sdk.proximity.ProximityObserverFactory;
@@ -33,14 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean beaconNotificationsEnabled = false;
     private boolean activityShown = false;
+    Location myRoom;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    IndoorLocationView indoorLocationView;
+    ScanningIndoorLocationManager indoorLocationManager;
 
-        activityShown = false;
 
+    private void initBeaconListner() {
         EstimoteCloudCredentials cloudCredentials = new EstimoteCloudCredentials("test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
         ProximityObserver proximityObserver = new ProximityObserverFactory().create(getApplicationContext(), cloudCredentials);
 
@@ -93,6 +103,63 @@ public class MainActivity extends AppCompatActivity {
                         .startWithSimpleScanner();
     }
 
+
+    private void initMap() {
+        CloudCredentials cloudCredentials = new EstimoteCloudCredentials("test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
+        IndoorCloudManager cloudManager = new IndoorCloudManagerFactory().create(this, cloudCredentials);
+        cloudManager.getLocation("test-j4a", new CloudCallback<Location>() {
+            @Override
+            public void success(Location location) {
+                // do something with your Location object here.
+                // You will need it to initialise IndoorLocationManager!
+                indoorLocationView = (IndoorLocationView) findViewById(R.id.indoor_view);
+                indoorLocationView.setLocation(location);
+            }
+
+            @Override
+            public void failure(EstimoteCloudException e) {
+                // oops!
+            }
+        });
+    }
+
+    private void initMap2() {
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+        EstimoteSDK.initialize(getApplicationContext(), "test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
+
+
+        EstimoteCloudCredentials credentials = new EstimoteCloudCredentials("test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
+        IndoorCloudManager cloudManager = new IndoorCloudManagerFactory().create(this, credentials);
+
+        cloudManager.getLocation("test-j4a", new CloudCallback<Location>() {
+            @Override
+            public void success(Location location) {
+                Log.i("success", "success");
+                myRoom = location;
+                indoorLocationView = (IndoorLocationView) findViewById(R.id.indoor_view);
+                indoorLocationView.setLocation(location);
+            }
+
+            @Override
+            public void failure(EstimoteCloudException e) {
+                // oops!
+                Log.i("fail", "fail");
+            }
+        });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        activityShown = false;
+
+        initMap();
+        initBeaconListner();
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -100,8 +167,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onDestroy() {
-        observationHandler.stop();
         super.onDestroy();
     }
 }

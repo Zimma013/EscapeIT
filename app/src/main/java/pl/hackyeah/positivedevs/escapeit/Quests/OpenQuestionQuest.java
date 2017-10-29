@@ -23,6 +23,7 @@ public class OpenQuestionQuest extends AppCompatActivity {
 
     private Handler customHandler = new Handler();
 
+    private long taskTime = 0L;
     private long startTime = 0L;
     long timeInMilliseconds = 0L;
     long timeSwapBuff = 0L;
@@ -86,27 +87,33 @@ public class OpenQuestionQuest extends AppCompatActivity {
             //questImage.setImageBitmap(currPuzzle.getImgPath());
             questTitle.setText(currPuzzle.getTitle());
             questDescription.setText(currPuzzle.getDescription());
+
+            if (currPuzzle.isHasTimer()) {
+
+                taskTime = currPuzzle.getTimeForAnswer();
+
+                startTime = SystemClock.uptimeMillis();
+                customHandler.postDelayed(updateTimerThread, 0);
+
+                Handler handler = new Handler();
+
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        timesUp();
+                    }
+                }, currPuzzle.getTimeForAnswer());
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        startTime = SystemClock.uptimeMillis();
-        customHandler.postDelayed(updateTimerThread, 0);
-
-
-        Handler handler = new Handler();
-
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                timesUp();
-            }
-        }, 10000);
     }
 
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-            updatedTime = timeSwapBuff + timeInMilliseconds;
+            updatedTime = taskTime - (timeSwapBuff + timeInMilliseconds);
+            if (updatedTime < 0) updatedTime = 0;
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
             secs = secs % 60;
