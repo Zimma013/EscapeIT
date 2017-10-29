@@ -27,6 +27,10 @@ public class Puzzle {
 
     private boolean answered = false;
 
+
+    private boolean hasTimer;
+    private long timeForAnswer;
+
     public int getId() {
         return id;
     }
@@ -55,6 +59,10 @@ public class Puzzle {
         return answered;
     }
 
+    public boolean isHasTimer() { return hasTimer; }
+
+    public long getTimeForAnswer() { return timeForAnswer; }
+
     public Puzzle(String jsonFile, Context mContext) throws JSONException {
         String json = loadJSONFromAsset(jsonFile, mContext);
         JSONObject reader = new JSONObject(json);
@@ -67,11 +75,15 @@ public class Puzzle {
         answerType = AnswerType.valueOf(main.getString("answerType"));
         if(answerType == AnswerType.ABCD){
             possibleAnswers = new ArrayList<PossibleAnswer>();
-            JSONArray answers = main.getJSONArray("possibleAnwers");
+            JSONArray answers = main.getJSONArray("possibleAnswers");
             for(int i = 0;i<answers.length();i++){
                 JSONObject answer = answers.getJSONObject(i);
                 possibleAnswers.add(new PossibleAnswer(answer.getString("name"),answer.getString("answer")));
             }
+        }
+        hasTimer = main.getBoolean("hasTimer");
+        if(hasTimer){
+            timeForAnswer = main.getLong("timeForAnswer");
         }
         numberOfAttempts = main.getInt("numberOfAttempts");
 
@@ -110,5 +122,6 @@ public class Puzzle {
         else
             return false;
     }
+
 
 }

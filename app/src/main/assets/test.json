@@ -1,11 +1,11 @@
 {
   "main": {
     "id": 1,
-    "title": "Zadanie nr 1",
-    "description": "Ile wynosi wynik działania 2 + 2?",
+    "title": "Tajemniczy napis",
+    "description": "W ciemnym pokoju widzicie niewyrany napis na scianie \"Ile wynosi wynik działania 2 + 2? \". Nagle z za waszych plecow wylania sie czort. Czy znacie odpowiedz ?? ",
     "imgPath": "",
     "correctAnswer": "4",
-    "answerType":"TEXT",
+    "answerType": "ABCD",
     "numberOfAttempts":3,
     "possibleAnswers":[
       {
@@ -18,12 +18,14 @@
       },
       {
         "name":"C",
-        "answer":"1"
+        "answer": "4"
       },
       {
         "name":"D",
         "answer":"77"
       }
     ]
-  }
+  },
+  "hasTimer":true,
+  "timeForAnswer":10000
 }
