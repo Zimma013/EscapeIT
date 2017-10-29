@@ -36,6 +36,7 @@ import java.util.List;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
+import pl.hackyeah.positivedevs.escapeit.Bluetooth.BluetoothMessanger;
 import pl.hackyeah.positivedevs.escapeit.Quests.CloseQuestionQuest;
 import pl.hackyeah.positivedevs.escapeit.Quests.OpenQuestionQuest;
 
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     ProximityObserver.Handler observationHandler;
     BeaconManager beaconManager;
+
+    private boolean stopSearching = false;
 
     private boolean activityShown1 = false;
     private boolean activityShown2 = false;
@@ -66,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
                         .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
                             @Override
                             public Unit invoke(ProximityAttachment proximityAttachment) {
-
                                 Log.i("proximity", "Enter");
 
-                                if (!activityShown1) {
+                                if (!activityShown1 && !stopSearching) {
+                                    stopSearching = true;
                                     Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
                                     intent.putExtra("fileName", "zagadka1.json");
                                     startActivityForResult(intent, 1);
@@ -106,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.i("proximity", "Enter");
 
-                                if (!activityShown2) {
+                                if (!activityShown2 && !stopSearching) {
+                                    stopSearching = true;
                                     Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
                                     intent.putExtra("fileName", "zagadka2.json");
                                     startActivityForResult(intent, 2);
@@ -143,11 +147,47 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.i("proximity", "Enter");
 
-                                if (!activityShown3) {
+                                if (!activityShown3 && !stopSearching) {
+                                    stopSearching = true;
                                     Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
-                                    startActivityForResult(intent, 3);
                                     intent.putExtra("fileName", "zagadka3.json");
+                                    startActivityForResult(intent, 3);
                                     activityShown3 = true;
+                                }
+                                return null;
+                            }
+                        })
+                        .withOnExitAction(new Function0<Unit>() {
+                            @Override
+                            public Unit invoke() {
+                                Log.i("proximity", "Exit");
+                                return null;
+                            }
+                        })
+                        .withOnChangeAction(new Function1<List<? extends ProximityAttachment>, Unit>() {
+                            @Override
+                            public Unit invoke(List<? extends ProximityAttachment> proximityAttachments) {
+                                Log.i("proximity", "onChange");
+                                return null;
+                            }
+
+                            ;
+                        })
+                        .withDesiredMeanTriggerDistance(2.0)
+                        .create();
+
+        ProximityRule rule4 =
+                proximityObserver.ruleBuilder()
+                        .forAttachmentKeyAndValue("venue", "office")
+                        .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
+                            @Override
+                            public Unit invoke(ProximityAttachment proximityAttachment) {
+
+                                Log.i("proximity", "Enter");
+
+                                if (activityShown3 && activityShown1 && activityShown2 && !stopSearching) {
+                                    Intent intent = new Intent(getBaseContext(), LoadingActivity.class);
+                                    startActivity(intent);
                                 }
                                 return null;
                             }
@@ -173,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         observationHandler =
-                proximityObserver.addProximityRules(rule1)
+                proximityObserver.addProximityRules(rule1, rule2, rule3, rule4)
                         .withBalancedPowerMode()
                         .withOnErrorAction(new Function1<Throwable, Unit>() {
                             @Override
@@ -183,6 +223,29 @@ public class MainActivity extends AppCompatActivity {
                             }
                         })
                         .startWithSimpleScanner();
+        /*observationHandler =
+                proximityObserver.addProximityRules(rule2)
+                        .withBalancedPowerMode()
+                        .withOnErrorAction(new Function1<Throwable, Unit>() {
+                            @Override
+                            public Unit invoke(Throwable throwable) {
+                                /* Do something here
+                                return null;
+                            }
+                        })
+                        .startWithSimpleScanner();
+
+        observationHandler =
+                proximityObserver.addProximityRules(rule3)
+                        .withBalancedPowerMode()
+                        .withOnErrorAction(new Function1<Throwable, Unit>() {
+                            @Override
+                            public Unit invoke(Throwable throwable) {
+                                /* Do something here
+                                return null;
+                            }
+                        })
+                        .startWithSimpleScanner(); */
     }
 
     private void initMap() {
@@ -238,8 +301,32 @@ public class MainActivity extends AppCompatActivity {
         activityShown3 = false;
         activityShown4 = false;
 
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Jesteś w pokoju, w którym wszystko jest kontrolowane przez zbuntowane AI, Skynet, które pragnie zniszczenia ludzkości.\n" +
+                "A mówili, że SmartHomes i Internet-of-Things ułatwią życie.\n" +
+                "\n" +
+                "Jednak możesz uratować zarówno siebie jak i osobę z [drugiego] pokoju.\n" +
+                "Musisz jedynie rozwiązać kilka zagadek, które zostały pozostawione wewnątrz twojego więzienia.\n" +
+                "\n" +
+                "Aby otrzymać pierwszą z nich podejdź do [Beacona A].\n" +
+                "Kolejną otrzymasz po poprawnym rozwiązaniu obecnej.");
+        alertDialogBuilder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        stopSearching = false;
+                    }
+                });
+
+        stopSearching = true;
+        alertDialogBuilder.show();
+
+
+
         initMap();
         initBeaconListner();
+
+
     }
 
     @Override
@@ -266,6 +353,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        stopSearching = false;
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {

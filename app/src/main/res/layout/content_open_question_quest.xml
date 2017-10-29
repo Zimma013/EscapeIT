@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/beacon_beetroot_small" />
+            android:src="@drawable/foto2" />
 
         <TextView
             android:id="@+id/open_timer_text"

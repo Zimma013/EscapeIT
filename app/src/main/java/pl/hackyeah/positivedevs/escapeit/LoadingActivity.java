@@ -14,6 +14,7 @@ import java.util.UUID;
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.ConnectThread;
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.ServerConnectThread;
 import pl.hackyeah.positivedevs.escapeit.Quests.CloseQuestionQuest;
+import pl.hackyeah.positivedevs.escapeit.Quests.OpenQuestionQuest;
 
 import static pl.hackyeah.positivedevs.escapeit.Main2Activity.REQUEST_BLUETOOTH;
 
@@ -32,7 +33,9 @@ public class LoadingActivity extends AppCompatActivity {
         ConnectThread client = new ConnectThread();
         BluetoothSocket bSocket = client.connect(BTAdapter.getRemoteDevice("78:02:F8:E5:D7:88"), new UUID(123, 456));
 
-        showStartDialog();
+        Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
+        intent.putExtra("fileName", "zagadka4.json");
+        startActivity(intent);
 
     }
 
@@ -47,7 +50,9 @@ public class LoadingActivity extends AppCompatActivity {
         ServerConnectThread server = new ServerConnectThread();
         BluetoothSocket bSocket = server.acceptConnect(BTAdapter, new UUID(123, 456));
 
-        showStartDialog();
+        Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
+        intent.putExtra("fileName", "zagadka4.json");
+        startActivity(intent);
 
     }
 

@@ -51,10 +51,10 @@ public class CloseQuestionQuest extends AppCompatActivity {
 
         } else {
             Toast.makeText(this, "You are wrong! :(", Toast.LENGTH_LONG).show();
-            Intent returnIntent = new Intent();
+            /*Intent returnIntent = new Intent();
             returnIntent.putExtra("result", 0);
             setResult(Activity.RESULT_OK, returnIntent);
-            finish();
+            finish();*/
         }
     }
 
@@ -141,6 +141,7 @@ public class CloseQuestionQuest extends AppCompatActivity {
         buttons.add((Button) findViewById(R.id.button_F));
 
         try {
+            Log.d("??", "123");
             currPuzzle = new Puzzle(file, this);
 
             //questImage.setImageBitmap(currPuzzle.getImgPath());

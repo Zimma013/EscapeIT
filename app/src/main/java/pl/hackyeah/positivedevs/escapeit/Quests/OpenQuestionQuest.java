@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,10 +77,10 @@ public class OpenQuestionQuest extends AppCompatActivity {
 
         } else {
             Toast.makeText(this, "You are wrong! :(", Toast.LENGTH_LONG).show();
-            Intent returnIntent = new Intent();
+            /*Intent returnIntent = new Intent();
             returnIntent.putExtra("result", 0);
             setResult(Activity.RESULT_OK, returnIntent);
-            finish();
+            finish();*/
         }
 
     }
@@ -98,6 +99,7 @@ public class OpenQuestionQuest extends AppCompatActivity {
         String file = getIntent().getStringExtra("fileName");
 
         try {
+            Log.d("??", file);
             currPuzzle = new Puzzle(file, this);
 
             if (currPuzzle.getAnswerType() == AnswerType.NUMBERS) {
