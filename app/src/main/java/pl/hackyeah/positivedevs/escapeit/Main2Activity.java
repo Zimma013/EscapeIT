@@ -67,7 +67,7 @@ public class Main2Activity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         getApplicationContext().registerReceiver(bReciever,filter);*/
         // server
-        //ServerConnectThread server = new ServerConnectThread();
+        ServerConnectThread server = new ServerConnectThread();
         //BluetoothSocket bSocket = server.acceptConnect(BTAdapter,new UUID(123,456));
 
         //client

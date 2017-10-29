@@ -1,7 +1,9 @@
 package pl.hackyeah.positivedevs.escapeit.Quests;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -43,10 +45,21 @@ public class OpenQuestionQuest extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result", 0);
+                        setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
                 });
-
+        alertDialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", 0);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -66,9 +79,6 @@ public class OpenQuestionQuest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_question_quest);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
         questImage = (ImageView) findViewById(R.id.quest_img);
         questTitle = (TextView) findViewById(R.id.quest_title);
         questDescription = (TextView) findViewById(R.id.quest_descripton);
@@ -94,13 +104,6 @@ public class OpenQuestionQuest extends AppCompatActivity {
                 startTime = SystemClock.uptimeMillis();
                 customHandler.postDelayed(updateTimerThread, 0);
 
-                Handler handler = new Handler();
-
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        timesUp();
-                    }
-                }, currPuzzle.getTimeForAnswer());
             }
 
         } catch (JSONException e) {
@@ -112,7 +115,10 @@ public class OpenQuestionQuest extends AppCompatActivity {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
             updatedTime = taskTime - (timeSwapBuff + timeInMilliseconds);
-            if (updatedTime < 0) updatedTime = 0;
+            if (updatedTime < 0) {
+                updatedTime = 0;
+                timesUp();
+            }
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
             secs = secs % 60;
@@ -120,7 +126,18 @@ public class OpenQuestionQuest extends AppCompatActivity {
             timer.setText("" + mins + ":"
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
-            customHandler.postDelayed(this, 0);
+            if (updatedTime > 0) {
+                customHandler.postDelayed(this, 0);
+            }
         }
     };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        timeSwapBuff += timeInMilliseconds;
+        customHandler.removeCallbacks(updateTimerThread);
+
+    }
 }
