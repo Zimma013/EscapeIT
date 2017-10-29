@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.ConnectThread;
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.DeviceItem;
+import pl.hackyeah.positivedevs.escapeit.Bluetooth.ManageConnectThread;
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.ServerConnectThread;
 
 
@@ -69,6 +70,7 @@ public class Main2Activity extends AppCompatActivity {
 
         //client
         ConnectThread client = new ConnectThread();
-        client.connect(BTAdapter.getRemoteDevice("44:78:3E:C5:1F:67"),new UUID(123,456));
+        client.connect(BTAdapter.getRemoteDevice("78:02:F8:E5:D7:88"),new UUID(123,456));
+
     }
 }

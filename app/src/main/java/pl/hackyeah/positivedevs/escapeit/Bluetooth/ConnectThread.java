@@ -28,15 +28,20 @@ public class ConnectThread extends Thread{
         } catch(IOException e) {
             Log.d("CONNECTTHREAD","Could not connect: " + e.toString());
             try {
-                ManageConnectThread manage = new ManageConnectThread();
-                int otrzymana = manage.receiveData(temp);
-                Log.i("??",Integer.toString(otrzymana));
                 temp.close();
             } catch(IOException close) {
                 Log.d("CONNECTTHREAD", "Could not close connection:" + e.toString());
                 return false;
             }
         }
+        ManageConnectThread manage = new ManageConnectThread();
+        int otrzymana = 0;
+        try {
+            otrzymana = manage.receiveData(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i("??",Integer.toString(otrzymana));
         return true;
     }
 
