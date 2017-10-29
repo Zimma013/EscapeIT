@@ -50,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
                         .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
                             @Override
                             public Unit invoke(ProximityAttachment proximityAttachment) {
+<<<<<<< HEAD
+                                Log.i("??", "YEY ?");
+                                Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
+                                startActivity(intent);
+=======
 
                                 Log.i("proximity", "Enter");
 
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     activityShown = true;
                                 }
+>>>>>>> 4f47122eaac4174964cb5e09240ac29591a18b8b
                                 return null;
                             }
                         })
@@ -71,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
                         .withOnChangeAction(new Function1<List<? extends ProximityAttachment>, Unit>() {
                             @Override
                             public Unit invoke(List<? extends ProximityAttachment> proximityAttachments) {
+<<<<<<< HEAD
+                             /* Do something here */
+                                Log.i("??", "YEY ???");
+=======
                                 Log.i("proximity", "onChange");
+>>>>>>> 4f47122eaac4174964cb5e09240ac29591a18b8b
                                 return null;
                             }
 
