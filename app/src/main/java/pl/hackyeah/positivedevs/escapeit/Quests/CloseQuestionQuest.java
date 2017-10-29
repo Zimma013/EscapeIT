@@ -1,7 +1,9 @@
 package pl.hackyeah.positivedevs.escapeit.Quests;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -59,10 +61,21 @@ public class CloseQuestionQuest extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result", 0);
+                        setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
                 });
-
+        alertDialogBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", 0);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -142,13 +155,6 @@ public class CloseQuestionQuest extends AppCompatActivity {
                 startTime = SystemClock.uptimeMillis();
                 customHandler.postDelayed(updateTimerThread, 0);
 
-                Handler handler = new Handler();
-
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        timesUp();
-                    }
-                }, currPuzzle.getTimeForAnswer());
             }
 
         } catch (JSONException e) {
@@ -162,7 +168,10 @@ public class CloseQuestionQuest extends AppCompatActivity {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
             updatedTime = taskTime - (timeSwapBuff + timeInMilliseconds);
 
-            if (updatedTime < 0) updatedTime = 0;
+            if (updatedTime < 0) {
+                updatedTime = 0;
+                timesUp();
+            }
 
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
@@ -171,8 +180,28 @@ public class CloseQuestionQuest extends AppCompatActivity {
             timer.setText("" + mins + ":"
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
-            customHandler.postDelayed(this, 0);
+            if (updatedTime > 0) {
+                customHandler.postDelayed(this, 0);
+            }
         }
     };
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        timeSwapBuff += timeInMilliseconds;
+        customHandler.removeCallbacks(updateTimerThread);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i("APP", "CLOSED");
+            }
+        }
+    }
 }

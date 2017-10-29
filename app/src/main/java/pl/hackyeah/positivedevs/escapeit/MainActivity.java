@@ -44,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean beaconNotificationsEnabled = false;
     private boolean activityShown = false;
-    Location myRoom;
 
     IndoorLocationView indoorLocationView;
     ScanningIndoorLocationManager indoorLocationManager;
 
+    IndoorCloudManager cloudManager;
 
     private void initBeaconListner() {
         EstimoteCloudCredentials cloudCredentials = new EstimoteCloudCredentials("test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (!activityShown) {
                                     Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
-                                    startActivity(intent);
+                                    startActivityForResult(intent, 1);
                                     activityShown = true;
                                 }
                                 return null;
@@ -103,47 +103,45 @@ public class MainActivity extends AppCompatActivity {
                         .startWithSimpleScanner();
     }
 
-
     private void initMap() {
-        CloudCredentials cloudCredentials = new EstimoteCloudCredentials("test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
-        IndoorCloudManager cloudManager = new IndoorCloudManagerFactory().create(this, cloudCredentials);
-        cloudManager.getLocation("test-j4a", new CloudCallback<Location>() {
-            @Override
-            public void success(Location location) {
-                // do something with your Location object here.
-                // You will need it to initialise IndoorLocationManager!
-                indoorLocationView = (IndoorLocationView) findViewById(R.id.indoor_view);
-                indoorLocationView.setLocation(location);
-            }
 
-            @Override
-            public void failure(EstimoteCloudException e) {
-                // oops!
-            }
-        });
-    }
-
-    private void initMap2() {
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
         EstimoteSDK.initialize(getApplicationContext(), "test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
+        EstimoteSDK.enableDebugLogging(true);
 
+        final EstimoteCloudCredentials cloudCredentials = new EstimoteCloudCredentials("test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
 
-        EstimoteCloudCredentials credentials = new EstimoteCloudCredentials("test-8ly", "5eb18314992a67e64e248a2a8c2e49d8");
-        IndoorCloudManager cloudManager = new IndoorCloudManagerFactory().create(this, credentials);
-
+        cloudManager = new IndoorCloudManagerFactory().create(this, cloudCredentials);
         cloudManager.getLocation("test-j4a", new CloudCallback<Location>() {
             @Override
             public void success(Location location) {
-                Log.i("success", "success");
-                myRoom = location;
+
                 indoorLocationView = (IndoorLocationView) findViewById(R.id.indoor_view);
                 indoorLocationView.setLocation(location);
+
+                indoorLocationManager =
+                        new IndoorLocationManagerBuilder(getApplicationContext(), location, cloudCredentials)
+                                .withDefaultScanner()
+                                .build();
+
+                indoorLocationManager.startPositioning();
+
+                indoorLocationManager.setOnPositionUpdateListener(new OnPositionUpdateListener() {
+                    @Override
+                    public void onPositionUpdate(LocationPosition locationPosition) {
+                        indoorLocationView.updatePosition(locationPosition);
+                    }
+
+                    @Override
+                    public void onPositionOutsideLocation() {
+                        indoorLocationView.hidePosition();
+                    }
+                });
+
             }
 
             @Override
             public void failure(EstimoteCloudException e) {
                 // oops!
-                Log.i("fail", "fail");
             }
         });
     }
@@ -164,15 +162,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         activityShown = false;
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        activityShown = false;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
+        observationHandler.stop();
         super.onDestroy();
     }
 }
