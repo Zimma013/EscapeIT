@@ -1,0 +1,14 @@
+{
+  "main": {
+    "id": 2,
+    "title": "Zagadka nr 2",
+    "description": "Co ma miasta bez domów,/Lasy bez drzew/I wody bez ryb?",
+    "imgPath": "",
+    "correctAnswer": "Mapa",
+    "answerType": "TEXT",
+    "numberOfAttempts":3,
+    "hasTimer": true,
+    "timeForAnswer": 20000
+  }
+
+}

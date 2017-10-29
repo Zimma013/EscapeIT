@@ -1,0 +1,32 @@
+{
+  "main": {
+    "id": 3,
+    "title": "Zagadka nr 3",
+    "description": "Są trzy pudełka./ W jednym z nich są jabłka, w drugim gruszki a w trzecim jabłka i gruszki/Każde etykietę informującą co jest w środku, jednak są one nieprawdziwe./Musisz przypisać odpowiednie etykiety odpowiednim pudełkom./Ile najmniej próbek musisz pobrać aby mieć pewność które pudełko co zawiera?",
+    "imgPath": "",
+    "correctAnswer": "1",
+    "answerType": "ABCD",
+    "numberOfAttempts":3,
+    "possibleAnswers":[
+      {
+        "name":"A",
+        "answer":"1"
+      },
+      {
+        "name":"B",
+        "answer":"3"
+      },
+      {
+        "name":"C",
+        "answer": "7"
+      },
+      {
+        "name":"D",
+        "answer":"Nie da się tego określić"
+      }
+    ],
+    "hasTimer": true,
+    "timeForAnswer": 20000
+  }
+
+}

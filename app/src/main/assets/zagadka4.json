@@ -1,0 +1,14 @@
+{
+  "main": {
+    "id": 4,
+    "title": "Zagadka nr 4",
+    "description": "Jest większe od Boga i bardziej złe niż diabeł./Biedni go mają, a bogaci tego potrzebują/A gdy to jesz, to umierasz/Co to jest?",
+    "imgPath": "",
+    "correctAnswer": "Nic",
+    "answerType": "TEXT",
+    "numberOfAttempts":3,
+    "hasTimer": true,
+    "timeForAnswer": 20000
+  }
+
+}
