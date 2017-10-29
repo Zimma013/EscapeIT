@@ -2,6 +2,7 @@ package pl.hackyeah.positivedevs.escapeit;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import com.estimote.indoorsdk_module.view.IndoorLocationView;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import pl.hackyeah.positivedevs.escapeit.Bluetooth.BluetoothMessanger;
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.ConnectThread;
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.DeviceItem;
 import pl.hackyeah.positivedevs.escapeit.Bluetooth.ManageConnectThread;
@@ -66,11 +68,10 @@ public class Main2Activity extends AppCompatActivity {
         getApplicationContext().registerReceiver(bReciever,filter);*/
         // server
         //ServerConnectThread server = new ServerConnectThread();
-        //server.acceptConnect(BTAdapter,new UUID(123,456));
+        //BluetoothSocket bSocket = server.acceptConnect(BTAdapter,new UUID(123,456));
 
         //client
         ConnectThread client = new ConnectThread();
-        client.connect(BTAdapter.getRemoteDevice("78:02:F8:E5:D7:88"),new UUID(123,456));
-
+        BluetoothSocket bSocket = client.connect(BTAdapter.getRemoteDevice("78:02:F8:E5:D7:88"),new UUID(123,456));
     }
 }

@@ -8,23 +8,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-import pl.hackyeah.positivedevs.escapeit.MainActivity;
 import pl.hackyeah.positivedevs.escapeit.R;
 
 public class CloseQuestionQuest extends AppCompatActivity {
@@ -135,7 +130,7 @@ public class CloseQuestionQuest extends AppCompatActivity {
         buttons.add((Button) findViewById(R.id.button_F));
 
         try {
-            currPuzzle = new Puzzle("test.json", this);
+            currPuzzle = new Puzzle("zagadka1.json", this);
 
             //questImage.setImageBitmap(currPuzzle.getImgPath());
             questTitle.setText(currPuzzle.getTitle());

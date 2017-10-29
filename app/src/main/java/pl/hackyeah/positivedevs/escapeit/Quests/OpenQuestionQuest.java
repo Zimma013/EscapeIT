@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -78,7 +77,7 @@ public class OpenQuestionQuest extends AppCompatActivity {
         timer = (TextView) findViewById(R.id.open_timer_text);
 
         try {
-            currPuzzle = new Puzzle("test.json", this);
+            currPuzzle = new Puzzle("zagadka1.json", this);
 
             if (currPuzzle.getAnswerType() == AnswerType.NUMBERS) {
                 answer.setInputType(InputType.TYPE_CLASS_NUMBER);

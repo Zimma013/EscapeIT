@@ -15,34 +15,31 @@ import java.util.UUID;
 public class ConnectThread extends Thread{
     private BluetoothSocket bTSocket;
 
-    public boolean connect(BluetoothDevice bTDevice, UUID mUUID) {
+    public BluetoothSocket connect(BluetoothDevice bTDevice, UUID mUUID) {
         BluetoothSocket temp = null;
         try {
             temp = bTDevice.createRfcommSocketToServiceRecord(mUUID);
         } catch (IOException e) {
             Log.d("CONNECTTHREAD","Could not create RFCOMM socket:" + e.toString());
-            return false;
+            return null;
         }
         try {
             temp.connect();
+            ManageConnectThread manage = new ManageConnectThread();
+            int otrzymana = 0;
+            otrzymana = manage.receiveData(temp);
+            Log.i("??",Integer.toString(otrzymana));
         } catch(IOException e) {
             Log.d("CONNECTTHREAD","Could not connect: " + e.toString());
-            try {
-                temp.close();
+            /*try {
+                //temp.close();
             } catch(IOException close) {
                 Log.d("CONNECTTHREAD", "Could not close connection:" + e.toString());
-                return false;
-            }
+                return null;
+            }*/
+            return null;
         }
-        ManageConnectThread manage = new ManageConnectThread();
-        int otrzymana = 0;
-        try {
-            otrzymana = manage.receiveData(temp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.i("??",Integer.toString(otrzymana));
-        return true;
+        return temp;
     }
 
     public boolean cancel() {

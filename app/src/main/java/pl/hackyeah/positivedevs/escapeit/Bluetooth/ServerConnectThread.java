@@ -18,7 +18,7 @@ public class ServerConnectThread extends Thread{
 
     public ServerConnectThread() { }
 
-    public void acceptConnect(BluetoothAdapter bTAdapter, UUID mUUID) {
+    public BluetoothSocket acceptConnect(BluetoothAdapter bTAdapter, UUID mUUID) {
         BluetoothServerSocket temp = null;
         try {
             temp = bTAdapter.listenUsingRfcommWithServiceRecord("EscapeIT", mUUID);
@@ -33,16 +33,19 @@ public class ServerConnectThread extends Thread{
                 break;
             }
             if (bTSocket != null) {
+                return bTSocket;
+                /*
                 try {
                     ManageConnectThread manage = new ManageConnectThread();
                     manage.sendData(bTSocket,5);
-                    temp.close();
+                    //temp.close();
                 } catch (IOException e) {
                     Log.d("SERVERCONNECT", "Could not close ServerSocket:" + e.toString());
                 }
-                break;
+                break;*/
             }
         }
+        return null;
     }
 
     public void closeConnect() {
