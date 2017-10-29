@@ -25,7 +25,7 @@
         "answer":"Nie da się tego określić"
       }
     ],
-    "hasTimer": true,
+    "hasTimer": false,
     "timeForAnswer": 20000
   }
 

@@ -125,6 +125,8 @@ public class CloseQuestionQuest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_close_question_quest);
 
+        String file = getIntent().getStringExtra("fileName");
+
         questImage = (ImageView) findViewById(R.id.quest_img);
         questTitle = (TextView) findViewById(R.id.quest_title);
         questDescription = (TextView) findViewById(R.id.quest_descripton);
@@ -139,7 +141,7 @@ public class CloseQuestionQuest extends AppCompatActivity {
         buttons.add((Button) findViewById(R.id.button_F));
 
         try {
-            currPuzzle = new Puzzle("zagadka1.json", this);
+            currPuzzle = new Puzzle(file, this);
 
             //questImage.setImageBitmap(currPuzzle.getImgPath());
             questTitle.setText(currPuzzle.getTitle());

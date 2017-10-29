@@ -68,9 +68,18 @@ public class OpenQuestionQuest extends AppCompatActivity {
         String myAnswer = answer.getText().toString();
 
         if (currPuzzle.checkAnswer(myAnswer)) {
-            Toast.makeText(this, "You are correct", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "You are correct!", Toast.LENGTH_LONG).show();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", 1);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+
         } else {
-            Toast.makeText(this, "You are wrong", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "You are wrong! :(", Toast.LENGTH_LONG).show();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", 0);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
 
     }
@@ -86,8 +95,10 @@ public class OpenQuestionQuest extends AppCompatActivity {
         submitButton = (Button) findViewById(R.id.submitButton);
         timer = (TextView) findViewById(R.id.open_timer_text);
 
+        String file = getIntent().getStringExtra("fileName");
+
         try {
-            currPuzzle = new Puzzle("zagadka1.json", this);
+            currPuzzle = new Puzzle(file, this);
 
             if (currPuzzle.getAnswerType() == AnswerType.NUMBERS) {
                 answer.setInputType(InputType.TYPE_CLASS_NUMBER);

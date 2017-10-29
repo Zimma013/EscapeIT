@@ -25,10 +25,10 @@ public class ConnectThread extends Thread{
         }
         try {
             temp.connect();
-            ManageConnectThread manage = new ManageConnectThread();
-            int otrzymana = 0;
-            otrzymana = manage.receiveData(temp);
-            Log.i("??",Integer.toString(otrzymana));
+            //ManageConnectThread manage = new ManageConnectThread();
+            //int otrzymana = 0;
+            //otrzymana = manage.receiveData(temp);
+            //Log.i("??",Integer.toString(otrzymana));
         } catch(IOException e) {
             Log.d("CONNECTTHREAD","Could not connect: " + e.toString());
             /*try {

@@ -1,6 +1,8 @@
 package pl.hackyeah.positivedevs.escapeit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,11 +42,14 @@ import pl.hackyeah.positivedevs.escapeit.Quests.OpenQuestionQuest;
 
 public class MainActivity extends AppCompatActivity {
 
+
     ProximityObserver.Handler observationHandler;
     BeaconManager beaconManager;
 
-    private boolean beaconNotificationsEnabled = false;
-    private boolean activityShown = false;
+    private boolean activityShown1 = false;
+    private boolean activityShown2 = false;
+    private boolean activityShown3 = false;
+    private boolean activityShown4 = false;
 
     IndoorLocationView indoorLocationView;
     ScanningIndoorLocationManager indoorLocationManager;
@@ -64,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.i("proximity", "Enter");
 
-                                if (!activityShown) {
-                                    Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
+                                if (!activityShown1) {
+                                    Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
+                                    intent.putExtra("fileName", "zagadka1.json");
                                     startActivityForResult(intent, 1);
-                                    activityShown = true;
+                                    activityShown1 = true;
                                 }
                                 return null;
                             }
@@ -91,13 +97,88 @@ public class MainActivity extends AppCompatActivity {
                         .withDesiredMeanTriggerDistance(2.0)
                         .create();
 
+        ProximityRule rule2 =
+                proximityObserver.ruleBuilder()
+                        .forAttachmentKeyAndValue("venue2", "office2")
+                        .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
+                            @Override
+                            public Unit invoke(ProximityAttachment proximityAttachment) {
+
+                                Log.i("proximity", "Enter");
+
+                                if (!activityShown2) {
+                                    Intent intent = new Intent(getBaseContext(), OpenQuestionQuest.class);
+                                    intent.putExtra("fileName", "zagadka2.json");
+                                    startActivityForResult(intent, 2);
+                                    activityShown2 = true;
+                                }
+                                return null;
+                            }
+                        })
+                        .withOnExitAction(new Function0<Unit>() {
+                            @Override
+                            public Unit invoke() {
+                                Log.i("proximity", "Exit");
+                                return null;
+                            }
+                        })
+                        .withOnChangeAction(new Function1<List<? extends ProximityAttachment>, Unit>() {
+                            @Override
+                            public Unit invoke(List<? extends ProximityAttachment> proximityAttachments) {
+                                Log.i("proximity", "onChange");
+                                return null;
+                            }
+
+                            ;
+                        })
+                        .withDesiredMeanTriggerDistance(2.0)
+                        .create();
+
+        ProximityRule rule3 =
+                proximityObserver.ruleBuilder()
+                        .forAttachmentKeyAndValue("venue3", "office3")
+                        .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
+                            @Override
+                            public Unit invoke(ProximityAttachment proximityAttachment) {
+
+                                Log.i("proximity", "Enter");
+
+                                if (!activityShown3) {
+                                    Intent intent = new Intent(getBaseContext(), CloseQuestionQuest.class);
+                                    startActivityForResult(intent, 3);
+                                    intent.putExtra("fileName", "zagadka3.json");
+                                    activityShown3 = true;
+                                }
+                                return null;
+                            }
+                        })
+                        .withOnExitAction(new Function0<Unit>() {
+                            @Override
+                            public Unit invoke() {
+                                Log.i("proximity", "Exit");
+                                return null;
+                            }
+                        })
+                        .withOnChangeAction(new Function1<List<? extends ProximityAttachment>, Unit>() {
+                            @Override
+                            public Unit invoke(List<? extends ProximityAttachment> proximityAttachments) {
+                                Log.i("proximity", "onChange");
+                                return null;
+                            }
+
+                            ;
+                        })
+                        .withDesiredMeanTriggerDistance(2.0)
+                        .create();
+
+
         observationHandler =
                 proximityObserver.addProximityRules(rule1)
                         .withBalancedPowerMode()
                         .withOnErrorAction(new Function1<Throwable, Unit>() {
                             @Override
                             public Unit invoke(Throwable throwable) {
-               /* Do something here */
+                                /* Do something here */
                                 return null;
                             }
                         })
@@ -152,24 +233,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        activityShown = false;
+        activityShown1 = false;
+        activityShown2 = false;
+        activityShown3 = false;
+        activityShown4 = false;
 
         initMap();
         initBeaconListner();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        activityShown = false;
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        activityShown = false;
     }
 
     @Override
@@ -187,6 +268,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i("APP", "CLOSED");
+            }
+        }
+
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i("APP", "CLOSED");
+            }
+        }
+
+        if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.i("APP", "CLOSED");
             }

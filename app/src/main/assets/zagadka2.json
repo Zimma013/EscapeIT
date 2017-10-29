@@ -7,7 +7,7 @@
     "correctAnswer": "Mapa",
     "answerType": "TEXT",
     "numberOfAttempts":3,
-    "hasTimer": true,
+    "hasTimer": false,
     "timeForAnswer": 20000
   }
 
