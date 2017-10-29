@@ -24,8 +24,9 @@
         "name":"D",
         "answer":"77"
       }
-    ]
-  },
-  "hasTimer":true,
-  "timeForAnswer":10000
+    ],
+    "hasTimer": true,
+    "timeForAnswer": 10000
+  }
+
 }

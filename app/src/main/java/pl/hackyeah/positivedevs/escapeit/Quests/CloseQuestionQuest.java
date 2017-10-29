@@ -29,6 +29,7 @@ public class CloseQuestionQuest extends AppCompatActivity {
 
     private Handler customHandler = new Handler();
 
+    private long taskTime = 0L;
     private long startTime = 0L;
     long timeInMilliseconds = 0L;
     long timeSwapBuff = 0L;
@@ -113,8 +114,7 @@ public class CloseQuestionQuest extends AppCompatActivity {
         answer = (EditText) findViewById(R.id.answer);
         timer = (TextView) findViewById(R.id.close_timer_text);
 
-        Button tmp = (Button) findViewById(R.id.button_A);
-        buttons.add(tmp);
+        buttons.add((Button) findViewById(R.id.button_A));
         buttons.add((Button) findViewById(R.id.button_B));
         buttons.add((Button) findViewById(R.id.button_C));
         buttons.add((Button) findViewById(R.id.button_D));
@@ -135,27 +135,35 @@ public class CloseQuestionQuest extends AppCompatActivity {
                 buttons.get(i).setText(answers.get(i).getAnswer());
             }
 
+            if (currPuzzle.isHasTimer()) {
+
+                taskTime = currPuzzle.getTimeForAnswer();
+
+                startTime = SystemClock.uptimeMillis();
+                customHandler.postDelayed(updateTimerThread, 0);
+
+                Handler handler = new Handler();
+
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        timesUp();
+                    }
+                }, currPuzzle.getTimeForAnswer());
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        startTime = SystemClock.uptimeMillis();
-        customHandler.postDelayed(updateTimerThread, 0);
-
-        Handler handler = new Handler();
-
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                timesUp();
-            }
-        }, 10000);
 
     }
 
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-            updatedTime = timeSwapBuff + timeInMilliseconds;
+            updatedTime = taskTime - (timeSwapBuff + timeInMilliseconds);
+
+            if (updatedTime < 0) updatedTime = 0;
+
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
             secs = secs % 60;
