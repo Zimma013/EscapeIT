@@ -18,11 +18,6 @@ android {
     }
 }
 
-
-
-
-
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -33,4 +28,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.estimote:sdk:1.4.0'
     compile 'com.estimote:indoorsdk:2.0.0'
+    compile 'com.estimote:proximity-sdk:0.1.0-alpha.4'
 }
