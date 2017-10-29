@@ -16,7 +16,7 @@
         <activity android:name=".Quests.CloseQuestionQuest" />
         <activity android:name=".Quests.OpenQuestionQuest" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
